@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import data from '../assets/data'
+import { useCart } from '../context/cartContext'
 
-function OrderModal ({modalMenu, setModalOn, cart, setCart}) {
+function OrderModal ({modalMenu, setModalOn}) {
+    const {addToCart} = useCart()
     const [ options, setOptions ] = useState({'온도': 0, '진하기': 0, '사이즈': 0})
     const [ quantity, setQuantity ] = useState(1)
     const itemOptions = data.options
-    console.log(options)
+
     return (
         <>
             {modalMenu ? (
@@ -33,7 +35,7 @@ function OrderModal ({modalMenu, setModalOn, cart, setCart}) {
                                 <input id="count" type="number" value={quantity} min='1' onChange={(event) => setQuantity(Number(event.target.value))} />
                             </div>
                             <button onClick={() => {
-                                setCart([...cart, { options, quantity, id: modalMenu.id}])
+                                addToCart(options, quantity, modalMenu.id);
                                 setModalOn(false)
                             }}>장바구니 넣기</button>
                         </div>
